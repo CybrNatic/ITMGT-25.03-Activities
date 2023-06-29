@@ -228,9 +228,9 @@ def scytale_cipher(message, shift):
     if message_length % shift != 0: # Checks if the message's length is a multiple of the shift by using the modulo operator.
         message += "_" * (shift - (message_length % shift)) # Adds "_" until the message's length is a multiple of the shift.
         
-    for i in range(len(message)): # A loop that implements the scytale cipher.
-        scytale_index = (i // shift) + (message_length // shift) * (i % shift) # Implements the scytale cipher formula and returns the index of the message string
-        scytale_message += message[scytale_index] # Appends the character in the scytale index to the scytale message
+    for i in range(len(message)):
+        scytale_index = (i % shift) * (len(message) // shift) + (i // shift)
+        scytale_message += message[scytale_index]
         
     return scytale_message
 
