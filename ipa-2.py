@@ -261,21 +261,11 @@ def scytale_decipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    num_columns = -(-len(message) // shift) # Gets the number of columns in the scytale grid. The equation is used to round up the shift value.
-    num_rows = shift # Amount of rows is equal to the shift value
-    
-    grid = [[''] * num_columns for _ in range(num_rows)] # Makes an empty grid to organize the scytale decipher.
-    
-    index = 0 # Index starts at 0 for the ciphered scytale message string.
-    for col in range(num_columns): # This places the characters from the ciphered scytale message into the grid column by column.
-        for row in range(num_rows):
-            grid[row][col] = message[index]
-            index += 1
-    
     deciphered_scytale_message = "" # Initializing the deciphered scytale message.
+    messsage_length = len(message) # Gets the length of the message for the loop range using the amount of characters.
     
-    for row in range(num_rows): # Decrypts the scytale cipher and appends the characters into the deciphered scytale message.
-        for col in range(num_columns):
-            deciphered_scytale_message += grid[row][col]
-            
+    for i in range(len(message)):
+        scytale_index = (i % shift) * (message_length // shift) + (i // shift) # Reverses the scytale cipher.
+        deciphered_scytale_message += message[scytale_index] # Appends a deciphered character from the scytale message to the deciphered message.
+        
     return deciphered_scytale_message
