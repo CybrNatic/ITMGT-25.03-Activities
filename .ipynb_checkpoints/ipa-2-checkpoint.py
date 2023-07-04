@@ -36,9 +36,7 @@ def shift_letter(letter, shift):
         a single space if the original letter was a space.
     '''
     # Replace `pass` with your code.
-    # Stay within the function. Only use the parameters as input. The function should return your answer.
-    letter = letter.upper() # In case the input is not in capital. Because the offset uses the capital letter A's ASCII value.
-    
+    # Stay within the function. Only use the parameters as input. The function should return your answer. 
     if letter == " ": # If the input is a blank space.
         return " "
     else:
@@ -69,7 +67,6 @@ def caesar_cipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message = message.upper() # In case the input is not all in capital. Because the offset uses the capital letter A's ASCII value.
     shifted_string = "" # Initializing the string to append the letters to.
     
     for letter in message:
@@ -112,15 +109,13 @@ def shift_by_letter(letter, letter_shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    letter = letter.upper() # In case the input is not capital. Because the offset uses the capital letter A's ASCII value.
-    letter_shift = letter_shift.upper() # In case the input is not capital. Because the offset uses the capital letter A's ASCII value.
-    
     if letter == " ": # If the input is a blank space.
         return " "
     else:
         offset = ord("A") # ASCII offset for the letter A (65).
-        shifted_ascii = (ord(letter) - offset + (ord(letter_shift) - offset)) # ASCII value for the shifted letter, converts the letter shift into ASCII and subtracts the offset for A.
-        shifted_letter = chr(shifted_ascii + offset) # The shifted letter.
+        shift = ord(letter_shift) - offset # The ASCII value for the shift.
+        shifted_ascii = (ord(letter) - offset + shift) % 26 + 65 # ASCII value for the shifted letter, converts the letter shift into ASCII and subtracts the offset for A.
+        shifted_letter = chr(shifted_ascii) # The shifted letter.
         
         return shifted_letter
 
@@ -155,8 +150,6 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message = message.upper() # In case the input is not in capital. Because the offset uses the capital letter A's ASCII value.
-    key = key.upper() # In case the input is not in capital. Because the offset uses the capital letter A's ASCII value.
     key_extended = key * (len(message) // len(key)) + key[:len(message) % len(key)] # Creates the extended key for the cipher by multiplying the key string to the floor function of the message length and key length, then adding the remaining key length if the message length is not an exact multiple of the key length by getting the remainder of the message length and key length.
     vigenere_message = "" # Initializing the string
     
@@ -165,8 +158,9 @@ def vigenere_cipher(message, key):
             vigenere_message += " " # Appends a space if blank.
         else:
             offset = ord("A") # ASCII offset for the letter A (65).
-            shifted_ascii = (ord(message[i]) - offset + (ord(key_extended[i]) - offset)) # ASCII value for the shifted letter in the message, converts the letter shift from the key into ASCII and subtracts the offset for A.
-            shifted_letter = chr(shifted_ascii + offset) # The shifted letter.
+            shift = ord(key_extended[i]) - offset # The ASCII value for the shift.
+            shifted_ascii = (ord(message[i]) - offset + shift) % 26 + 65 # ASCII value for the shifted letter in the message, converts the letter shift from the key into ASCII and subtracts the offset for A.
+            shifted_letter = chr(shifted_ascii) # The shifted letter.
             vigenere_message += shifted_letter # Appends the shifted letter to the string.
             
     return vigenere_message
@@ -262,7 +256,7 @@ def scytale_decipher(message, shift):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     deciphered_scytale_message = "" # Initializing the deciphered scytale message.
-    messsage_length = len(message) # Gets the length of the message for the loop range using the amount of characters.
+    message_length = len(message) # Gets the length of the message for the loop range using the amount of characters.
     
     for i in range(len(message)):
         scytale_index = (i % shift) * (message_length // shift) + (i // shift) # Reverses the scytale cipher.
