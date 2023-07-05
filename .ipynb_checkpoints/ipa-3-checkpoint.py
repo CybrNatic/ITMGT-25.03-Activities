@@ -126,4 +126,27 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    stops = set()
+    for leg in route_map['legs']:
+        stops.add(leg[0]) # Gets where the shuttle comes from.
+        stops.add(leg[1]) # Gets where the shuttle goes to.
+        
+    stops = sorted(list(stops)) 
+    
+    first_stop_index = stops.index(first_stop) # Gets the index of where the shuttle comes from.
+    second_stop_index = stops.index(second_stop) # Gets the index of where the shuttle goes to.
+    
+    num_stops = len(stops) # Counts the number of stops so the shuttle correctly circles around.
+    
+    estimated_time = 0
+    
+    if second_stop_index > first_stop_index: # If the shuttle goes to a stop before it needs to circle back.
+        for i in range(first_stop_index, second_stop_index):
+            leg = route_map['leg'][(stops[i], stops[i + 1])]
+            estimated_time += leg['travel_time_mins']
+    else # If the shuttle goes to a stop that it needs to circle back to.
+        for i in range(first_stop_index, first_stop_index + num_stops):
+            leg = route_map['legs'][(stops[i % num_stops], stops[(i + 1) % num_stops])]
+            estimated_time += leg['travel_time_mins']
+            
+    return estimated_time
