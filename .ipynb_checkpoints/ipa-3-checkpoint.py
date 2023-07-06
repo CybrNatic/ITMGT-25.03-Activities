@@ -142,9 +142,9 @@ def eta(first_stop, second_stop, route_map):
     
     if second_stop_index > first_stop_index: # If the shuttle goes to a stop before it needs to circle back.
         for i in range(first_stop_index, second_stop_index):
-            leg = route_map['leg'][(stops[i], stops[i + 1])]
+            leg = route_map['legs'][(stops[i], stops[i + 1])]
             estimated_time += leg['travel_time_mins']
-    else # If the shuttle goes to a stop that it needs to circle back to.
+    else: # If the shuttle goes to a stop that it needs to circle back to.
         for i in range(first_stop_index, first_stop_index + num_stops):
             leg = route_map['legs'][(stops[i % num_stops], stops[(i + 1) % num_stops])]
             estimated_time += leg['travel_time_mins']

@@ -257,9 +257,11 @@ def scytale_decipher(message, shift):
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     deciphered_scytale_message = "" # Initializing the deciphered scytale message.
     message_length = len(message) # Gets the length of the message for the loop range using the amount of characters.
-    
+    while message_length % shift != 0:
+        deciphered_scytale_message += "_"
+        message_length += 1
     for i in range(len(message)):
-        scytale_index = (i % shift) * (message_length // shift) + (i // shift) # Reverses the scytale cipher.
+        scytale_index = (i % (message_length // shift)) * shift + (i // (message_length // shift)) # Reverses the scytale cipher.
         deciphered_scytale_message += message[scytale_index] # Appends a deciphered character from the scytale message to the deciphered message.
         
     return deciphered_scytale_message
