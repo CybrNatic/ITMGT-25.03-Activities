@@ -126,42 +126,18 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-        stops = set()
-    for leg in route_map:
-        stops.add(leg[0]) # Gets where the shuttle comes from.
-        stops.add(leg[1]) # Gets where the shuttle goes to.
-        
-    stops = sorted(list(stops)) 
+    if(first_stop, second_stop) in route_map:
+        return route_map[(first_stop, second_stop)]['travel_time_mins']
     
-    first_stop_index = stops.index(first_stop) # Gets the index of where the shuttle comes from.
-    second_stop_index = stops.index(second_stop) # Gets the index of where the shuttle goes to.
+    estimated_travel_time = 0
+    current_stop = first_stop
     
-    num_stops = len(stops) # Counts the number of stops so the shuttle correctly circles around.
-    
-    estimated_time = 0
-    
-    if second_stop_index > first_stop_index: # If the shuttle goes to a stop before it needs to circle back.
-        for i in range(first_stop_index, second_stop_index):
-            leg = route_map[(stops[i], stops[i + 1])]
-            estimated_time += leg['travel_time_mins']
-    else: # If the shuttle goes to a stop that it needs to circle back to.
-        for i in range(first_stop_index, first_stop_index + num_stops):
-            leg = route_map[(stops[i % num_stops], stops[(i + 1) % num_stops])]
-            estimated_time += leg['travel_time_mins']
+    while current_stop != second_stop:
+        found_key = next((key for key in route_map if key[0] == current_stop), None)
+        if found_key:
+            estimated_travel_time += route_map[found_key]['travel_time_mins']
+            current_stop = found_key[1]
+        else:
+            break
             
-    return estimated_time
-
-legs = {
-     ("upd","admu"):{
-         "travel_time_mins":10
-     },
-     ("admu","dlsu"):{
-         "travel_time_mins":35
-     },
-     ("dlsu","upd"):{
-         "travel_time_mins":55
-     }
-}
-
-result = eta("dlsu", "upd", legs)
-print(result)
+    return estimated_travel_time
